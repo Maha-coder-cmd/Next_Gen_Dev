@@ -1,2 +1,1 @@
 import openai
-openai.api_key = "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"
