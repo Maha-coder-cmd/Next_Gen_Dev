@@ -17,22 +17,38 @@ df.head()
 
 print(df.head())
 
-df_clean = pd.get_dummies(df_clean, columns=['prefarea', 'furnishingstatus'])
-df_clean.head()
+df['prefarea'] = df ['prefarea'].str.strip().str.lower()
+
+df['prefarea'] = df['prefarea'].map({'yes': 1, 'no': 0})
+df = pd.get_dummies(df, columns=['furnishingstatus'])
+
+X = df.drop('prefarea', axis=1)
+y = df['prefarea']
 
 # Assuming 'X' = features,'y' = target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-print(df['prefarea'].unique())
-df['prefarea'] = df['prefarea'].map({'yes':1, 'no': 0})
+# print("how many values => ", train_test_split(X, y, test_size=0.2, random_state=42))
+
+# print(df['prefarea'].unique())
+
+# X_train['prefarea'] = X_train['prefarea'].map({'yes': 1,'no': 0})
+# X_test ['prefarea'] = X_test['prefarea'].map({'yes': 1, 'no': 0})
+
+print("Data types in X_train:")
+print(X_train.dtypes)
+
+# Show first few rows to see raw data
+print("First 5 rows of X_train:")
+print(X_train.head())
+
+# print(df['furnishingstatus'].unique())
 
 
-print(df['furnishingstatus'].unique())
-df = pd.get_dummies(df, columns=['furnishingstatus'])
 
 #Train model
-# model = LinearRegression()
-# model.fit(X_train, y_train)
+model = LinearRegression()
+model.fit(X_train, y_train)
 
 # #Predict
 # # y_predict_lr = lr.predict(X_test)
